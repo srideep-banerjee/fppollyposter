@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wass_project1/core/client_status.dart';
+import 'package:wass_project1/config/colors.dart';
 import 'package:wass_project1/core/shared_components.dart';
+import 'package:wass_project1/features/auth/data/auth.dart';
+import 'package:wass_project1/features/auth/presentation/auth_screen.dart';
+import 'package:wass_project1/features/dashboard/presentation/dashboard.dart';
 import 'package:wass_project1/features/startup/presentation/onboarding.dart';
 
 void main() {
@@ -20,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x003b0052)),
+        colorScheme: ColorScheme.fromSeed(seedColor: SharedColors.primary),
         useMaterial3: true,
       ),
       home: const Home(),
@@ -41,36 +45,54 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     _prefs = SharedPreferences.getInstance();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _performStartupTasks(context);
-    });
-
-    super.initState();
-  }
-
-  Future<void> _performStartupTasks(BuildContext context) async {
-    SharedPreferences pref = await _prefs;
-    String? status = pref.getString("status");
-
-    if (status == null && context.mounted) {
-      await Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              SharedComponents.scaffolded(const OnboardingPage()),
-        ),
-      );
-
-      pref.setString("status", ClientStatus.loggedOut.name);
-    }
     
-    FlutterNativeSplash.remove();
+    _prefs.then(
+      (_) {
+        FlutterNativeSplash.remove();
+      }
+    );
+    
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SharedComponents.scaffolded(const Center(
-      child: Text("Loading ..."),
-    ));
+    return SharedComponents.scaffolded(
+      FutureBuilder(
+        future: _prefs,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Placeholder();
+          }
+          
+          SharedPreferences preferences = snapshot.data!;
+          
+          String? status = preferences.getString("status");
+          
+          MultiProvider(
+            providers: [
+              Provider(create: (context) => Auth(preferences)),
+              Provider(create: (context) => preferences),
+            ],
+            builder:(context, child) {
+              if (status == null) {
+                return const OnboardingPage();
+              }
+              
+              if (status == AuthState.loggedOut.name) {
+                return const AuthScreen();
+              }
+              
+              return const Dashboard();
+            },
+          );
+          
+          return Provider<Auth>(
+            create: (context) => Auth(preferences),
+            child: const AuthScreen(),
+          );
+        },
+      ),
+    );
   }
 }
