@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wass_project1/config/colors.dart';
 import 'package:wass_project1/core/shared_components.dart';
 import 'package:wass_project1/features/auth/data/auth.dart';
-import 'package:wass_project1/features/auth/presentation/auth_screen.dart';
 import 'package:wass_project1/features/dashboard/presentation/dashboard.dart';
 import 'package:wass_project1/features/startup/presentation/onboarding.dart';
 
@@ -27,19 +26,19 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: SharedColors.primary),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const _Home(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class _Home extends StatefulWidget {
+  const _Home();
 
   @override
-  State<Home> createState() => _HomeState();
+  State<_Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<_Home> {
   late Future<SharedPreferences> _prefs;
 
   @override
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> {
     _prefs.then(
       (_) {
         FlutterNativeSplash.remove();
-      }
+      },
     );
     
     super.initState();
@@ -57,42 +56,35 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return SharedComponents.scaffolded(
-      FutureBuilder(
-        future: _prefs,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Placeholder();
-          }
-          
-          SharedPreferences preferences = snapshot.data!;
-          
-          String? status = preferences.getString("status");
-          
-          MultiProvider(
-            providers: [
-              Provider(create: (context) => Auth(preferences)),
-              Provider(create: (context) => preferences),
-            ],
-            builder:(context, child) {
-              if (status == null) {
-                return const OnboardingPage();
-              }
-              
-              if (status == AuthState.loggedOut.name) {
-                return const AuthScreen();
-              }
-              
-              return const Dashboard();
-            },
-          );
-          
-          return Provider<Auth>(
-            create: (context) => Auth(preferences),
-            child: const AuthScreen(),
-          );
-        },
-      ),
+    return FutureBuilder(
+      future: _prefs,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Placeholder();
+        }
+
+        SharedPreferences preferences = snapshot.data!;
+
+        String? status = preferences.getString("status");
+
+        return MultiProvider(
+          providers: [
+            Provider(create: (context) => Auth(preferences)),
+            Provider(create: (context) => preferences),
+          ],
+          builder: (context, child) {
+            if (status == null) {
+              return SharedComponents.scaffolded(const OnboardingPage());
+            }
+
+            // if (status == AuthState.loggedOut.name) {
+            //   return SharedComponents.scaffolded(const AuthScreen());
+            // }
+
+            return const Dashboard();
+          },
+        );
+      },
     );
   }
 }

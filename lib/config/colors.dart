@@ -9,4 +9,6 @@ class SharedColors {
   static const Color selectorBorderColor = Colors.white;
   static Color hintColor = Colors.black.withOpacity(0.3);
   static const Color dialogBorderColor = Color(0xffcfcfcf);
+  static const Color viewAllButtonColor = Color(0xffd9d9d9);
+  static const Color categoryHighlightBorderColor = Color(0xffb7b7b7);
 }
