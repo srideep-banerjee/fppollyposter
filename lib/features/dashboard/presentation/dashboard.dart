@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wass_project1/config/colors.dart';
 import 'package:wass_project1/features/dashboard/home/presentation/home.dart';
+import 'package:wass_project1/features/notifications/presentation/notification_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -25,7 +26,9 @@ class _DashboardState extends State<Dashboard> {
           ),
           GestureDetector(
             onTap: () {
-              
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationScreen()),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
