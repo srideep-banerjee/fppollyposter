@@ -3,7 +3,6 @@ import 'package:wass_project1/features/category/data/category_list.dart';
 import 'package:wass_project1/features/category/domain/category.dart';
 import 'package:wass_project1/features/dashboard/home/presentation/category_highlight.dart';
 import 'package:wass_project1/features/dashboard/home/presentation/home_slider.dart';
-import 'package:wass_project1/features/dashboard/home/presentation/top_banner.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const TopBanner(),
         const SizedBox(height: 8),
         const HomeSlider(),
         const SizedBox(height: 16,),

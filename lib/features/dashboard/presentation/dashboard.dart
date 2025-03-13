@@ -15,6 +15,41 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: SharedColors.primary,
+        actions: [
+          const IconButton(
+            iconSize: 20,
+            onPressed: search,
+            icon: Icon(Icons.search, color: Colors.white),
+          ),
+          GestureDetector(
+            onTap: () {
+              
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: SharedColors.primaryDark,
+                  border: Border.all(
+                    color: SharedColors.buttonBorderColor,
+                    width: 0.5,
+                  ),
+                  shape: BoxShape.circle
+                ),
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.notifications_outlined,
+                  color: Colors.white,
+                  size: 16,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Builder(
           builder: (context) {
@@ -66,4 +101,8 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+void search() {
+  
 }
