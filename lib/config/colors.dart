@@ -11,4 +11,6 @@ class SharedColors {
   static const Color dialogBorderColor = Color(0xffcfcfcf);
   static const Color viewAllButtonColor = Color(0xffd9d9d9);
   static const Color categoryHighlightBorderColor = Color(0xffb7b7b7);
+  static const Color unselectedEventColor = Color(0xfff5f5f5);
+  static const Color selectedEventColor = Color(0xfffff8dc);
 }

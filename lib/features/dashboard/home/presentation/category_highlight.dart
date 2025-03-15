@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wass_project1/config/colors.dart';
 import 'package:wass_project1/features/category/domain/category.dart';
+import 'package:wass_project1/features/category/presentation/category_screen.dart';
 
 class CategoryHighlightDisplay extends StatelessWidget {
   final Category category;
@@ -29,7 +30,9 @@ class CategoryHighlightDisplay extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: viewAll,
+                onTap: () {
+                  viewAll(context);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: SharedColors.viewAllButtonColor,
@@ -83,7 +86,13 @@ class CategoryHighlightDisplay extends StatelessWidget {
     );
   }
   
-  void viewAll() {
-    
+  void viewAll(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return CategoryScreen(category);
+        },
+      ),
+    );
   }
 }
