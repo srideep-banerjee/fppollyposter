@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wass_project1/config/colors.dart';
 import 'package:wass_project1/core/shared_components.dart';
 import 'package:wass_project1/features/auth/data/auth.dart';
+import 'package:wass_project1/features/auth/presentation/auth_screen.dart';
 import 'package:wass_project1/features/dashboard/presentation/dashboard.dart';
 import 'package:wass_project1/features/startup/presentation/onboarding.dart';
 
@@ -77,9 +78,9 @@ class _HomeState extends State<_Home> {
               return SharedComponents.scaffolded(const OnboardingPage());
             }
 
-            // if (status == AuthState.loggedOut.name) {
-            //   return SharedComponents.scaffolded(const AuthScreen());
-            // }
+            if (status == AuthState.loggedOut.name) {
+              return SharedComponents.scaffolded(const AuthScreen());
+            }
 
             return const Dashboard();
           },

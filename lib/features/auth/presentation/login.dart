@@ -3,6 +3,7 @@ import 'package:wass_project1/core/shared_components.dart';
 import 'package:wass_project1/features/auth/presentation/auth_screen.dart';
 import 'package:wass_project1/features/auth/presentation/auth_text_field.dart';
 import 'package:wass_project1/features/auth/presentation/forgot_password.dart';
+import 'package:wass_project1/features/dashboard/presentation/dashboard.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -55,7 +56,7 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          AuthScreenButton("Login", login)
+          AuthScreenButton("Login", () {login(context);})
         ],
       ),
     );
@@ -72,7 +73,13 @@ class LoginScreen extends StatelessWidget {
     
   }
   
-  void login() {
-    
+  void login(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) {
+          return const Dashboard();
+        },
+      )
+    );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:wass_project1/config/colors.dart';
+import 'package:wass_project1/core/shared_components.dart';
+import 'package:wass_project1/features/auth/presentation/login.dart';
 import 'package:wass_project1/features/startup/presentation/footer.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -83,7 +85,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           currentPage,
           () {
             if (currentPage == pages.length - 1) {
-              Navigator.pop(context);
+              Navigator.of(context).pushReplacement(SharedComponents.routeOf(LoginScreen()));
             }
             else {
               currentPage = currentPage + 1;
